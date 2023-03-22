@@ -97,6 +97,26 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
             return null;
         }
     }
+    public async getByToken(token: string): Promise<ConfigModel> {
+        try {
+            const configSave = await dbConfig.findOne({ token });
+            if (!configSave) {
+                logger.error(
+                    `ConfigRepository getByToken - Configuração não encontrada com o token: ${token}`
+                );
+                return null;
+            }
+            return configSave;
+        } catch (err) {
+            logger.error(
+                "ConfigRepository getByToken - Exception: " +
+                    err +
+                    ". Token da Config: " +
+                    token
+            );
+            return null;
+        }
+    }
     public async getAll(): Promise<ConfigModel[]> {
         try {
             const configsSave = await dbConfig.find();

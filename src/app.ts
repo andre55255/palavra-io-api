@@ -5,6 +5,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swagger.json";
 import "./config/database/connection";
 
+import configRouter from "./routes/configRouter";
+
 export class App {
     public server: express.Application;
 
@@ -26,7 +28,9 @@ export class App {
         this.server.use(express.json());
     }
 
-    private routes() {}
+    private routes() {
+        this.server.use(configRouter);
+    }
 
     private docs() {
         this.server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));

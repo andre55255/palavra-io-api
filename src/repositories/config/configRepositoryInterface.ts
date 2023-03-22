@@ -8,6 +8,8 @@ export interface configRepositoryInterface {
 
     getById(id: string): Promise<ConfigModel>;
 
+    getByToken(token: string): Promise<ConfigModel>;
+
     getAll(): Promise<Array<ConfigModel> | null>;
 
     remove(id: string): Promise<ResultVO>;
