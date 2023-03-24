@@ -16,8 +16,9 @@ export const authorize = async (
         const system = req.headers.system + "";
         const key = req.headers.key + "";
         
-        if (isUseKeyDefault == 1 && keyDefaultFirstAccess === key) {
+        if (isUseKeyDefault === 1 && keyDefaultFirstAccess === key) {
             next();
+            return;
         }
 
         if (!key || !system) {

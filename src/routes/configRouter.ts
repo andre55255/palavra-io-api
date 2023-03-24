@@ -8,7 +8,7 @@ const router: Router = Router();
 
 router.post("/config", authorize, validationConfig, validationRequest, configController.create);
 
-router.put("/config", authorize, validationConfig, validationRequest, configController.edit);
+router.put("/config/:id", authorize, validationConfig, validationRequest, configController.edit);
 
 router.get("/config", authorize, configController.getAll);
 

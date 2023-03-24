@@ -1,4 +1,4 @@
-import { FilterVO } from './../view-objects/utils/FilterVO';
+import { FilterVO } from "./../view-objects/utils/FilterVO";
 import { Request, Response } from "express";
 import { buildApiResponse } from "../helpers/staticMethods";
 import logger from "../middlewares/logger";
@@ -7,12 +7,6 @@ import { ConfigVO } from "../view-objects/config/configVO";
 import { ConfigServiceInterface } from "./../services/config/configServiceInterface";
 
 class ConfigController {
-    private configService: ConfigServiceInterface;
-
-    constructor() {
-        this.configService = new ConfigServiceImpl();
-    }
-
     public async create(req: Request, res: Response) {
         try {
             logger.info("Acessando endpoint: POST /config");
@@ -32,7 +26,9 @@ class ConfigController {
                         )
                     );
             }
-            const result = await this.configService.create(configVO);
+            const configService: ConfigServiceInterface =
+                new ConfigServiceImpl();
+            const result = await configService.create(configVO);
             if (!result.success) {
                 return res
                     .status(400)
@@ -93,7 +89,8 @@ class ConfigController {
                     );
             }
             configVO._id = id;
-            const result = await this.configService.edit(configVO);
+            const configService: ConfigServiceInterface = new ConfigServiceImpl();
+            const result = await configService.edit(configVO);
             if (!result.success) {
                 return res
                     .status(400)
@@ -136,7 +133,8 @@ class ConfigController {
                     )
                 );
             }
-            const result = await this.configService.remove(id);
+            const configService: ConfigServiceInterface = new ConfigServiceImpl();
+            const result = await configService.remove(id);
             if (!result.success) {
                 return res
                     .status(400)
@@ -179,7 +177,8 @@ class ConfigController {
                     )
                 );
             }
-            const result = await this.configService.getById(id);
+            const configService: ConfigServiceInterface = new ConfigServiceImpl();
+            const result = await configService.getById(id);
             if (!result) {
                 return res
                     .status(404)
@@ -187,7 +186,7 @@ class ConfigController {
                         buildApiResponse(
                             false,
                             404,
-                            "Configuração não encontrada"
+                            "Configuração não encontrada",
                         )
                     );
             }
@@ -197,7 +196,8 @@ class ConfigController {
                     buildApiResponse(
                         true,
                         200,
-                        "Configuração listada com sucesso"
+                        "Configuração listada com sucesso",
+                        result
                     )
                 );
         } catch (err) {
@@ -220,7 +220,8 @@ class ConfigController {
     public async getAll(req: Request, res: Response) {
         try {
             logger.info("Acessando endpoint: GET /config");
-            const result = await this.configService.getAll();
+            const configService: ConfigServiceInterface = new ConfigServiceImpl();
+            const result = await configService.getAll();
             if (!result) {
                 return res
                     .status(404)
@@ -238,7 +239,8 @@ class ConfigController {
                     buildApiResponse(
                         true,
                         200,
-                        "Configurações listadas com sucesso"
+                        "Configurações listadas com sucesso",
+                        result
                     )
                 );
         } catch (err) {

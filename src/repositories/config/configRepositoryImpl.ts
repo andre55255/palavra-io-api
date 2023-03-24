@@ -12,7 +12,7 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
             if (configCreated._id) {
                 logger.info(
                     "ConfigRepository create - Configuração criada com sucesso: " +
-                        config
+                        configCreated
                 );
                 return buildResult(
                     true,
