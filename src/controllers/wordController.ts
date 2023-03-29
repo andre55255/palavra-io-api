@@ -366,7 +366,7 @@ class WordController {
             if (!page || !limit || !numberLetter) {
                 logger.error(
                     "wordController getAll - Parâmetros não informados para busca: " +
-                        req.query
+                        JSON.stringify(req.query)
                 );
                 return res
                     .status(400)

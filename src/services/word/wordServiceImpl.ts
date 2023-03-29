@@ -7,6 +7,7 @@ import { FilterVO } from "../../view-objects/utils/FilterVO";
 import { ResultVO } from "../../view-objects/utils/ResultVO";
 import { WordVO } from "../../view-objects/word/WordVO";
 import { WordServiceInterface } from "./wordServiceInterface";
+import * as readline from "node:readline";
 import fs from "fs";
 
 export class WordServiceImpl implements WordServiceInterface {
@@ -17,7 +18,6 @@ export class WordServiceImpl implements WordServiceInterface {
     }
     public async readFileAndInsertWords(filepath: string): Promise<ResultVO> {
         try {
-            let countWords = 0;
             const isExistFilepath = fs.existsSync(filepath);
             if (!isExistFilepath) {
                 logger.error("Arquivo não encontrado no caminho: " + filepath);
@@ -26,32 +26,22 @@ export class WordServiceImpl implements WordServiceInterface {
                     "Arquivo não encontrado no caminho: " + filepath
                 );
             }
-            fs.readFile(filepath, { encoding: "utf-8" }, (err, data) => {
-                if (err) {
-                    logger.error(
-                        `Erro ao ler arquivo 'fs': ${err} no caminho ${filepath}`
-                    );
-                    throw new Error(
-                        `Erro ao ler arquivo 'fs': ${err} no caminho ${filepath}`
-                    );
-                }
-                const lines = data.split(/\r?\n/);
-                lines.forEach(async (line) => {
-                    const word: WordModel = {
-                        text: line.toUpperCase(),
-                        numberLetters: line.length
-                    };
-                    const exist = await this.getByText(word.text);
-                    if (!exist) {
-                        const result = await this.create(word);
-                        if (!result || !result.success) {
-                            throw new Error(result.message + "");
-                        }
-                        countWords++;
-                    }
-                });
+            const rl = readline.createInterface({
+                input: fs.createReadStream(filepath),
+                output: process.stdout,
+                terminal: false
             });
-            return buildResult(true, "Palavras lidas e inseridas, quantidade: " + countWords);
+            rl.on("line", async (line) => {
+                const word: WordModel = {
+                    text: line.toUpperCase(),
+                    numberLetters: line.length,
+                };
+                const result = await this.wordRepo.create(word);
+                if (!result || !result.success) {
+                    throw new Error(result.message + "");
+                }
+            });
+            return buildResult(true, "Palavras sendo lidas e inseridas");
         } catch (err) {
             logger.error(
                 "WordService readFileAndInsertWords - Exception: " +
@@ -172,7 +162,6 @@ export class WordServiceImpl implements WordServiceInterface {
             return null;
         }
     }
-    F;
     public async remove(id: string): Promise<ResultVO> {
         try {
             const wordModel: WordModel = await this.wordRepo.getById(id);

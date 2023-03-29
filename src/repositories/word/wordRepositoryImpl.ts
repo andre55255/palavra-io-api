@@ -14,7 +14,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             if (modelCreated._id) {
                 logger.info(
                     "WordRepository create - Palavra criada com sucesso: " +
-                        word
+                        modelCreated.toJSON()
                 );
                 return buildResult(
                     true,
@@ -24,7 +24,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             }
             logger.error(
                 "WordRepository create - Falha ao inserir palavra na base de dados: " +
-                    modelCreated
+                    modelCreated.toJSON()
             );
             return buildResult(
                 false,
@@ -75,14 +75,14 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             const modelSave = await this.getById(word._id);
             if (!modelSave) {
                 logger.error(
-                    `WordRepository edit - Palavra não encontrada. Model: ${word}`
+                    `WordRepository edit - Palavra não encontrada. Model: ${word._id} - ${word.text}`
                 );
                 return buildResult(false, "Palavra não encontrada");
             }
             const result = await dbWord.updateOne({ _id: word._id }, word);
             if (!result || !result.modifiedCount) {
                 logger.error(
-                    `WordRepository edit - Falha ao editar palavra. Model: ${word}`
+                    `WordRepository edit - Falha ao editar palavra. Model:  ${word._id} - ${word}`
                 );
                 return buildResult(
                     false,

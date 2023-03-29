@@ -12,7 +12,7 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
             if (configCreated._id) {
                 logger.info(
                     "ConfigRepository create - Configuração criada com sucesso: " +
-                        configCreated
+                        configCreated.toJSON()
                 );
                 return buildResult(
                     true,
@@ -22,7 +22,11 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
             }
             logger.error(
                 "ConfigRepository create - Falha ao inserir configuração na base de dados: " +
-                    config
+                    config._id +
+                    " - " +
+                    config.token +
+                    " - " +
+                    config.value
             );
             return buildResult(
                 false,
@@ -33,7 +37,11 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
                 "ConfigRepository create - Exception: " +
                     err +
                     ". Config: " +
-                    config
+                    config +
+                    " - " +
+                    config.token +
+                    " - " +
+                    config.value
             );
             return buildResult(false, "Falha inesperada ao criar configuração");
         }
@@ -43,7 +51,7 @@ export class ConfigRepositoryImpl implements configRepositoryInterface {
             const configSave = await this.getById(config._id);
             if (!configSave) {
                 logger.error(
-                    `ConfigRepository edit - Configuração não encontrada. Model: ${config}`
+                    `ConfigRepository edit - Configuração não encontrada. Model: ${config._id} - ${config.token} - ${config.value}`
                 );
                 return buildResult(false, "Configuração não encontrada");
             }
