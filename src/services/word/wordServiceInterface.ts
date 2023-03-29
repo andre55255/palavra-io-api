@@ -16,4 +16,6 @@ export interface WordServiceInterface {
     getAll(filter?: FilterVO): Promise<Array<WordVO>>;
 
     getByText(text: string): Promise<WordVO>;
+
+    remove(id: string): Promise<ResultVO>;
 }

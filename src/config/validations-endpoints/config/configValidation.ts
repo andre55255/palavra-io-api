@@ -7,7 +7,7 @@ export const validationConfig = [
         .isString()
         .withMessage("Token inválido")
         .isLength({ min: 2, max: 70 })
-        .withMessage("Token deve ter entre 2 e 7 caracteres"),
+        .withMessage("Token deve ter entre 2 e 70 caracteres"),
     check("value")
         .notEmpty()
         .withMessage("Valor não informado")

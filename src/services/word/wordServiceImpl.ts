@@ -7,6 +7,7 @@ import { FilterVO } from "../../view-objects/utils/FilterVO";
 import { ResultVO } from "../../view-objects/utils/ResultVO";
 import { WordVO } from "../../view-objects/word/WordVO";
 import { WordServiceInterface } from "./wordServiceInterface";
+import fs from "fs";
 
 export class WordServiceImpl implements WordServiceInterface {
     private wordRepo: WordRepositoryInterface;
@@ -14,9 +15,55 @@ export class WordServiceImpl implements WordServiceInterface {
     constructor() {
         this.wordRepo = new WordRepositoryImpl();
     }
-
     public async readFileAndInsertWords(filepath: string): Promise<ResultVO> {
-        throw new Error("Method not implemented.");
+        try {
+            let countWords = 0;
+            const isExistFilepath = fs.existsSync(filepath);
+            if (!isExistFilepath) {
+                logger.error("Arquivo não encontrado no caminho: " + filepath);
+                return buildResult(
+                    false,
+                    "Arquivo não encontrado no caminho: " + filepath
+                );
+            }
+            fs.readFile(filepath, { encoding: "utf-8" }, (err, data) => {
+                if (err) {
+                    logger.error(
+                        `Erro ao ler arquivo 'fs': ${err} no caminho ${filepath}`
+                    );
+                    throw new Error(
+                        `Erro ao ler arquivo 'fs': ${err} no caminho ${filepath}`
+                    );
+                }
+                const lines = data.split(/\r?\n/);
+                lines.forEach(async (line) => {
+                    const word: WordModel = {
+                        text: line.toUpperCase(),
+                        numberLetters: line.length
+                    };
+                    const exist = await this.getByText(word.text);
+                    if (!exist) {
+                        const result = await this.create(word);
+                        if (!result || !result.success) {
+                            throw new Error(result.message + "");
+                        }
+                        countWords++;
+                    }
+                });
+            });
+            return buildResult(true, "Palavras lidas e inseridas, quantidade: " + countWords);
+        } catch (err) {
+            logger.error(
+                "WordService readFileAndInsertWords - Exception: " +
+                    err +
+                    ". filepath: " +
+                    filepath
+            );
+            return buildResult(
+                false,
+                "Falha ao ler arquivo e inserir palavras: " + err
+            );
+        }
     }
     public async create(word: WordVO): Promise<ResultVO> {
         try {
@@ -74,10 +121,7 @@ export class WordServiceImpl implements WordServiceInterface {
             logger.error(
                 "WordService edit - Exception: " + err + ". Model: " + word
             );
-            return buildResult(
-                false,
-                "Falha inesperada ao editar palavra"
-            );
+            return buildResult(false, "Falha inesperada ao editar palavra");
         }
     }
     public async getById(id: string): Promise<WordVO> {
@@ -105,7 +149,10 @@ export class WordServiceImpl implements WordServiceInterface {
             return response;
         } catch (err) {
             logger.error(
-                "WordService getAll - Exception: " + err + ". Filtros: " + filter
+                "WordService getAll - Exception: " +
+                    err +
+                    ". Filtros: " +
+                    filter
             );
             return null;
         }
@@ -122,6 +169,18 @@ export class WordServiceImpl implements WordServiceInterface {
             logger.error(
                 "WordService getByText - Exception: " + err + ". Text: " + text
             );
+            return null;
+        }
+    }
+    F;
+    public async remove(id: string): Promise<ResultVO> {
+        try {
+            const wordModel: WordModel = await this.wordRepo.getById(id);
+            wordModel.disabledAt = new Date();
+            const result = await this.wordRepo.edit(wordModel);
+            return result;
+        } catch (err) {
+            logger.error("WordService remove - Exception: " + err);
             return null;
         }
     }

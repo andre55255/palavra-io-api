@@ -9,6 +9,7 @@ import { buildResult } from "../../helpers/staticMethods";
 export class WordRepositoryImpl implements WordRepositoryInterface {
     public async create(word: WordModel): Promise<ResultVO> {
         try {
+            word.text = word.text.toUpperCase();
             const modelCreated = await dbWord.create(word);
             if (modelCreated._id) {
                 logger.info(
@@ -70,6 +71,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
     }
     public async edit(word: WordModel): Promise<ResultVO> {
         try {
+            word.text = word.text.toUpperCase();
             const modelSave = await this.getById(word._id);
             if (!modelSave) {
                 logger.error(

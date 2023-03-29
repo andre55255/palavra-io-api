@@ -1,4 +1,3 @@
-import { FilterVO } from "./../view-objects/utils/FilterVO";
 import { Request, Response } from "express";
 import { buildApiResponse } from "../helpers/staticMethods";
 import logger from "../middlewares/logger";
