@@ -6,6 +6,7 @@ import swaggerDocs from "./swagger.json";
 import "./config/database/connection";
 
 import configRouter from "./routes/configRouter";
+import todayWordRouter from "./routes/todayWordRouter";
 import wordRouter from "./routes/wordRouter";
 
 export class App {
@@ -31,6 +32,7 @@ export class App {
 
     private routes() {
         this.server.use(configRouter);
+        this.server.use(todayWordRouter);
         this.server.use(wordRouter);
     }
 

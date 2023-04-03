@@ -142,7 +142,7 @@ export class WordServiceImpl implements WordServiceInterface {
                 "WordService getAll - Exception: " +
                     err +
                     ". Filtros: " +
-                    filter
+                    JSON.stringify(filter)
             );
             return null;
         }

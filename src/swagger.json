@@ -1,1 +1,822 @@
-{}
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API Palavra.IO",
+      "description": "Api para jogo de Palavra.IO. Autenticação é feita por meio de chaves no header. \"system\" que identifica o sistema e \"key\" que equivale a chave para aquele sistema.",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080"
+      }
+    ],
+    "tags": [
+      {
+        "name": "config",
+        "description": "Métodos para configurações de autenticação"
+      },
+      {
+        "name": "todayWord"
+      },
+      {
+        "name": "word"
+      }
+    ],
+    "paths": {
+      "/config": {
+        "post": {
+          "tags": [
+            "config"
+          ],
+          "summary": "Criar - Método para inserir configuração",
+          "description": "Método para inserir configuração",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "token": "string",
+                    "value": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar a key de acesso"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "config"
+          ],
+          "summary": "Pegar tudo - Método para pegar lista de configurações",
+          "description": "Método para listar todas as configurações",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar a key de acesso"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/config/{id}": {
+        "put": {
+          "tags": [
+            "config"
+          ],
+          "summary": "Editar - Método para edição de configuração",
+          "description": "Método para edição de configuração",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "token": "string",
+                    "value": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "config"
+          ],
+          "summary": "Pegar por id - Método para pegar configuração por id",
+          "description": "Método para pegar configuração por id",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar a key de acesso"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "config"
+          ],
+          "summary": "Remover - Método para deletar configuração por id",
+          "description": "Método para deletar configuração por id",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar a key de acesso"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/todayWord": {
+        "post": {
+          "tags": [
+            "todayWord"
+          ],
+          "summary": "Criar - Método para criar palavra do dia",
+          "description": "Método para criar palavra do dia",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "date": "2023-04-02",
+                    "value": "TESTE",
+                    "numberLetters": 5
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "todayWord"
+          ],
+          "summary": "Pegar tudo - Método para buscar todas as palavras do dia",
+          "description": "Método para pegar todas as palavras do dia",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/todayWord/{id}": {
+        "put": {
+          "tags": [
+            "todayWord"
+          ],
+          "summary": "Editar - Método para editar palavra do dia",
+          "description": "Método para editar palavra do dia",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "date": "2023-04-02",
+                    "value": "TESTE",
+                    "numberLetters": 5
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/todayWord/{date}/{numberLetters}": {
+        "get": {
+          "tags": [
+            "todayWord"
+          ],
+          "summary": "Pegar por data e pelo texto - Método para listar palavra do dia pelo texto e pela data",
+          "description": "Método para listar palavra do dia pelo texto e pela data",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "date",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            },
+            {
+              "name": "numberLetters",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/word": {
+        "post": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Criar - Método para criar palavra",
+          "description": "Método para criar palavra",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "text": "Teste",
+                    "numberLetters": 5
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Pegar tudo - Método para listar palavras com filtro de paginação e número de letras",
+          "description": "Método para listar palavras com filtro de paginação e número de letras",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              },
+              "example": "int"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              },
+              "example": "int"
+            },
+            {
+              "name": "numberLetter",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              },
+              "example": "int"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/createManyWord": {
+        "post": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Criar muitos - Método para criar múltiplas palavras na base de dados",
+          "description": "Método para criar múltiplas palavras na base de dados",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": [
+                    {
+                      "text": "TESTE",
+                      "numberLetters": 5
+                    },
+                    {
+                      "text": "PALAVRA",
+                      "numberLetters": 7
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/readFileAndInsertWords": {
+        "post": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Ler arquivo e inserir palavras - Método lê um arquivo com palavras separadas por quebra de linha",
+          "description": "Ler arquivo e inserir palavras, o método lê um arquivo com palavras separadas por quebra de linha",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "filepath": "caminho do arquivo txt"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/word/{id}": {
+        "put": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Editar - Método para editar uma palavra",
+          "description": "Método para editar uma palavra",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "text": "TESTE",
+                    "numberLetters": 5
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Pegar por id - Método para buscar palavra por id",
+          "description": "Método para buscar palavra por id",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Remover - Método para remover uma palavra por id",
+          "description": "Método para remover uma palavra por id",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      },
+      "/word/text/{text}": {
+        "get": {
+          "tags": [
+            "word"
+          ],
+          "summary": "Pegar por texto - Método para buscar palavra por texto",
+          "description": "Método para buscar palavra por texto",
+          "parameters": [
+            {
+              "name": "key",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "Colocar a key de acesso a api"
+            },
+            {
+              "name": "system",
+              "in": "header",
+              "schema": {
+                "type": "string"
+              },
+              "example": "colocar o nome do sistema daquela key"
+            },
+            {
+              "name": "text",
+              "in": "path",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
