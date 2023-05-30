@@ -6,7 +6,7 @@ import { authorize } from "../middlewares/authorize";
 
 const router: Router = Router();
 
-router.post("/config", authorize, validationConfig, validationRequest, configController.create);
+router.post("/config", validationConfig, validationRequest, configController.create);
 
 router.put("/config/:id", authorize, validationConfig, validationRequest, configController.edit);
 

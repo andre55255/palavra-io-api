@@ -14,7 +14,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             if (modelCreated._id) {
                 logger.info(
                     "WordRepository create - Palavra criada com sucesso: " +
-                        modelCreated.toJSON()
+                        JSON.stringify(modelCreated)
                 );
                 return buildResult(
                     true,
@@ -24,7 +24,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             }
             logger.error(
                 "WordRepository create - Falha ao inserir palavra na base de dados: " +
-                    modelCreated.toJSON()
+                    JSON.stringify(modelCreated)
             );
             return buildResult(
                 false,
@@ -32,7 +32,7 @@ export class WordRepositoryImpl implements WordRepositoryInterface {
             );
         } catch (err) {
             logger.error(
-                "WordRepository create - Exception: " + err + ". Model: " + word
+                "WordRepository create - Exception: " + err + ". Model: " + JSON.stringify(word)
             );
             return buildResult(false, "Falha inesperada ao criar palavra");
         }
